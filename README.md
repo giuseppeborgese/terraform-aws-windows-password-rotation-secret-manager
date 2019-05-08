@@ -45,7 +45,7 @@ module "windows-password-rotation-secret-manager2019" {
 * You can rotate the password manually using the rotation button or wait the numbers of days defined
 * You can still recover the old password from the web console but it will NOT work
 
-** Youtube video
+## Youtube video
 I did a full creation and configuration in this video
 
 [![AWS Windows password rotation with Custom Secret Manager](https://img.youtube.com/vi/BU0Gy814crQ/0.jpg)](https://youtu.be/BU0Gy814crQ)
