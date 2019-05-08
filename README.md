@@ -44,3 +44,30 @@ module "windows-password-rotation-secret-manager2019" {
 ``` 
 * You can rotate the password manually using the rotation button or wait the numbers of days defined
 * You can still recover the old password from the web console but it will NOT work
+
+** Youtube video
+I did a full creation and configuration in this video
+
+[![AWS Windows password rotation with Custom Secret Manager](https://img.youtube.com/vi/BU0Gy814crQ/0.jpg)](https://youtu.be/BU0Gy814crQ)
+
+so you can see all the details and don’t miss anything. There is also a troubleshooting phase.
+
+# Rotation steps what happens behind the scene:
+This image describes all the steps every time there is a rotation manual or automatic
+
+![schema](https://raw.githubusercontent.com/giuseppeborgese/terraform-aws-windows-password-rotation-secret-manager/master/schema.png)
+
+Let's read in details:
+
+1. The secret manager record triggers a lambda function passing its parameters.
+2. The Lambda extract the instance id from the called record and generates a new password with the predefined criteria
+3. The lambda stores the new password in the original Secret Manager record using the default key aws/secretsmanager
+4. The Lambda stores encrypted the password in the system manager parameter store using the default key aws/ssm
+5. The lambda runs a call to SSM run command this runs a PowerShell command in the EC2 machine.
+6. The EC2 machine recovers the password from parameter store by Powershell
+7. The lambda deletes the password from the parameter store.
+
+You cannot pass the password as a parameter in the shell script because it will be shown in cleartext the System Manager log, it has to “travel” between services always encrypted.
+
+# Feedback
+if you like this module leave a comment or a thumbs up in the youtube video or in the medium article. 
